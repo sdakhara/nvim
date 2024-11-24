@@ -1,18 +1,17 @@
 return {
-
 	{
 		"williamboman/mason.nvim",
 		config = function()
 			require("mason").setup({})
-		end
+		end,
 	},
 	{
 		"williamboman/mason-lspconfig.nvim",
 		config = function()
 			require("mason-lspconfig").setup({
-				ensure_installed = {"lua_ls"}
+				ensure_installed = { "lua_ls" },
 			})
-		end
+		end,
 	},
 	{
 		"neovim/nvim-lspconfig",
@@ -30,14 +29,14 @@ return {
 			end
 
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
-
+			local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
 			-- Automatically configure language servers installed by Mason
 			mason_lspconfig.setup_handlers({
 				-- Default handler for all servers
 				function(server_name)
 					lspconfig[server_name].setup({
 						on_attach = on_attach,
-						capabilities = capabilities,
+						capabilities = cmp_capabilities,
 					})
 				end,
 
@@ -45,7 +44,7 @@ return {
 				["lua_ls"] = function()
 					lspconfig.lua_ls.setup({
 						on_attach = on_attach,
-						capabilities = capabilities,
+						capabilities = cmp_capabilities,
 						settings = {
 							Lua = {
 								diagnostics = { globals = { "vim" } },
@@ -58,6 +57,6 @@ return {
 					})
 				end,
 			})
-		end
-	}
+		end,
+	},
 }
