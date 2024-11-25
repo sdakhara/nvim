@@ -30,14 +30,30 @@ return {
 					["<C-Space>"] = cmp.mapping.complete(),
 					["<C-e>"] = cmp.mapping.abort(),
 					["<CR>"] = cmp.mapping.confirm({ select = true }),
+					['<Tab>'] = cmp.mapping(function(fallback)
+						if cmp.visible() then
+							cmp.select_next_item() -- Navigate suggestions
+						else
+							fallback() -- Default behavior (e.g., insert a tab character)
+						end
+					end, { 'i', 's' }),
+					['<S-Tab>'] = cmp.mapping(function(fallback)
+						if cmp.visible() then
+							cmp.select_prev_item() -- Navigate suggestions backward
+						else
+							fallback() -- Default behavior (e.g., shift-tab)
+						end
+					end, { 'i', 's' }),
 				}),
 				sources = cmp.config.sources({
 					{ name = "nvim_lsp" },
 					{ name = "luasnip" },
 				}, {
-					{ name = "buffer" },
-				}),
+						{ name = "buffer" },
+					}),
 			})
 		end,
 	},
 }
+
+
